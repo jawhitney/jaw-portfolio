@@ -5,18 +5,18 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import logo from './assets/jw-logo.svg'
+import logo from 'assets/jw-logo.svg'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { FormControlLabel, Grid, Switch } from '@mui/material'
 
-import Header from './Components/Header'
-import Home from './Components/routing/Home'
-import Projects from './Components/routing/Projects'
-import Resume from './Components/routing/Resume'
-import About from './Components/routing/About'
-import Contact from './Components/routing/Contact'
+import Header from 'Components/Header'
+import Home from 'Components/routing/Home'
+import Projects from 'Components/routing/Projects'
+import Resume from 'Components/routing/Resume'
+import About from 'Components/routing/About'
+import Contact from 'Components/routing/Contact'
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false)
