@@ -11,7 +11,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { FormControlLabel, Grid, Switch } from '@mui/material'
 
-import Header from 'Components/Header'
+// import Header from 'Components/Header'
 import Home from 'Components/routing/Home'
 import Projects from 'Components/routing/Projects'
 import Resume from 'Components/routing/Resume'
@@ -35,7 +35,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <main>
-        <Header />
+        {/* <Header /> */}
         <section>
           <BrowserRouter>
             <Routes>
