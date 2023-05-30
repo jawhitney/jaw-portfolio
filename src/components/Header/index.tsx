@@ -3,7 +3,7 @@ import { Box, Button, Grid, IconButton, Link, Menu } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import logo from '../assets/jw-logo.svg'
+import logo from 'assets/jw-logo.svg'
 
 export default function Header() {
   const theme = useTheme()
