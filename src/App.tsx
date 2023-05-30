@@ -11,12 +11,12 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { FormControlLabel, Grid, Switch } from '@mui/material'
 
-// import Header from 'Components/Header'
-import Home from 'Components/routing/Home'
-import Projects from 'Components/routing/Projects'
-import Resume from 'Components/routing/Resume'
-import About from 'Components/routing/About'
-import Contact from 'Components/routing/Contact'
+import Header from 'components/Header'
+import Home from 'components/routing/Home'
+import Projects from 'components/routing/Projects'
+import Resume from 'components/routing/Resume'
+import About from 'components/routing/About'
+import Contact from 'components/routing/Contact'
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false)
@@ -35,7 +35,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <main>
-        {/* <Header /> */}
+        <Header />
         <section>
           <BrowserRouter>
             <Routes>
