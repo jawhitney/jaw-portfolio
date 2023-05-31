@@ -52,7 +52,7 @@ export default function Project({ project }: Props) {
 
   return (
     <>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card variant="outlined" sx={{ maxWidth: 345 }}>
         <CardMedia
           sx={{ height: 150 }}
           image={`/assets/projects/${project.thumbnail}`}
@@ -69,7 +69,7 @@ export default function Project({ project }: Props) {
       </Card>
       <Dialog
         fullWidth={true}
-        maxWidth={'xl'}
+        maxWidth={'md'}
         open={open}
         onClose={handleClose}
       >
