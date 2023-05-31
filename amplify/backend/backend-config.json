@@ -43,11 +43,5 @@
       "service": "Cognito"
     }
   },
-  "storage": {
-    "jawportfolio": {
-      "dependsOn": [],
-      "providerPlugin": "awscloudformation",
-      "service": "S3"
-    }
-  }
+  "storage": {}
 }

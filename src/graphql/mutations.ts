@@ -29,6 +29,7 @@ export const createExperience = /* GraphQL */ `
         items {
           id
           experienceID
+          name
           title
           description
           url
@@ -69,6 +70,7 @@ export const updateExperience = /* GraphQL */ `
         items {
           id
           experienceID
+          name
           title
           description
           url
@@ -109,6 +111,7 @@ export const deleteExperience = /* GraphQL */ `
         items {
           id
           experienceID
+          name
           title
           description
           url
@@ -172,6 +175,7 @@ export const createResource = /* GraphQL */ `
     createResource(input: $input, condition: $condition) {
       id
       experienceID
+      name
       title
       description
       url
@@ -188,6 +192,7 @@ export const updateResource = /* GraphQL */ `
     updateResource(input: $input, condition: $condition) {
       id
       experienceID
+      name
       title
       description
       url
@@ -204,6 +209,7 @@ export const deleteResource = /* GraphQL */ `
     deleteResource(input: $input, condition: $condition) {
       id
       experienceID
+      name
       title
       description
       url

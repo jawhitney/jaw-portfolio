@@ -12,7 +12,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { FormControlLabel, Grid, Switch } from '@mui/material'
 
 import { API } from "aws-amplify"
-import { listExperiences, listTags } from "graphql/queries"
+import { listExperiences, listTags, listResources } from "graphql/queries"
 
 import Header from 'components/Header'
 import Home from 'components/routing/Home'
@@ -29,10 +29,14 @@ function App() {
   }, []);
 
   async function fetchNotes() {
-    const apiData: any = await API.graphql({ query: listExperiences });
-    const experiencesFromAPI = apiData.data.listExperiences.items
+    // const apiData: any = await API.graphql({ query: listExperiences });
+    // const experiencesFromAPI = apiData.data.listExperiences.items
 
-    console.log('[debug] experiencesFromAPI', experiencesFromAPI)
+    // console.log('[debug] experiencesFromAPI', experiencesFromAPI)
+
+    const apiData: any = await API.graphql({ query: listResources });
+    const resourcesFromAPI = apiData.data.listResources.items
+    console.log('[debug] resourcesFromAPI', resourcesFromAPI)
 
     // const notesFromAPI = apiData.data.listNotes.items;
     // setNotes(notesFromAPI);

@@ -26,6 +26,7 @@ export const getExperience = /* GraphQL */ `
         items {
           id
           experienceID
+          name
           title
           description
           url
@@ -101,6 +102,7 @@ export const getResource = /* GraphQL */ `
     getResource(id: $id) {
       id
       experienceID
+      name
       title
       description
       url
@@ -119,6 +121,7 @@ export const listResources = /* GraphQL */ `
       items {
         id
         experienceID
+        name
         title
         description
         url
@@ -177,6 +180,7 @@ export const resourcesByExperienceIDAndTitle = /* GraphQL */ `
       items {
         id
         experienceID
+        name
         title
         description
         url

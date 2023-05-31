@@ -23,6 +23,7 @@ type Tag @model {
 type Resource @model {
   id: ID!
   experienceID: ID! @index(name: "byExperience", sortKeyFields: ["title"])
+  name: String!
   title: String!
   description: String!
   url: String!
