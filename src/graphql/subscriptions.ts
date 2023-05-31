@@ -17,21 +17,22 @@ export const onCreateExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -55,21 +56,22 @@ export const onUpdateExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -93,21 +95,22 @@ export const onDeleteExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -120,27 +123,10 @@ export const onCreateTag = /* GraphQL */ `
   subscription OnCreateTag($filter: ModelSubscriptionTagFilterInput) {
     onCreateTag(filter: $filter) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -148,27 +134,10 @@ export const onUpdateTag = /* GraphQL */ `
   subscription OnUpdateTag($filter: ModelSubscriptionTagFilterInput) {
     onUpdateTag(filter: $filter) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -176,27 +145,10 @@ export const onDeleteTag = /* GraphQL */ `
   subscription OnDeleteTag($filter: ModelSubscriptionTagFilterInput) {
     onDeleteTag(filter: $filter) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -204,28 +156,12 @@ export const onCreateResource = /* GraphQL */ `
   subscription OnCreateResource($filter: ModelSubscriptionResourceFilterInput) {
     onCreateResource(filter: $filter) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;
@@ -233,28 +169,12 @@ export const onUpdateResource = /* GraphQL */ `
   subscription OnUpdateResource($filter: ModelSubscriptionResourceFilterInput) {
     onUpdateResource(filter: $filter) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;
@@ -262,28 +182,12 @@ export const onDeleteResource = /* GraphQL */ `
   subscription OnDeleteResource($filter: ModelSubscriptionResourceFilterInput) {
     onDeleteResource(filter: $filter) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;

@@ -88,11 +88,10 @@ export type ModelTagConnection = {
 export type Tag = {
   __typename: "Tag",
   id: string,
+  experienceID: string,
   title: string,
-  experience?: Experience | null,
   createdAt: string,
   updatedAt: string,
-  experienceTagsId?: string | null,
 };
 
 export type ModelResourceConnection = {
@@ -104,12 +103,12 @@ export type ModelResourceConnection = {
 export type Resource = {
   __typename: "Resource",
   id: string,
-  url: string,
+  experienceID: string,
+  title: string,
   description: string,
-  experience?: Experience | null,
+  url: string,
   createdAt: string,
   updatedAt: string,
-  experienceResourcesId?: string | null,
 };
 
 export type UpdateExperienceInput = {
@@ -128,16 +127,16 @@ export type DeleteExperienceInput = {
 
 export type CreateTagInput = {
   id?: string | null,
+  experienceID: string,
   title: string,
-  experienceTagsId?: string | null,
 };
 
 export type ModelTagConditionInput = {
+  experienceID?: ModelIDInput | null,
   title?: ModelStringInput | null,
   and?: Array< ModelTagConditionInput | null > | null,
   or?: Array< ModelTagConditionInput | null > | null,
   not?: ModelTagConditionInput | null,
-  experienceTagsId?: ModelIDInput | null,
 };
 
 export type ModelIDInput = {
@@ -158,8 +157,8 @@ export type ModelIDInput = {
 
 export type UpdateTagInput = {
   id: string,
+  experienceID?: string | null,
   title?: string | null,
-  experienceTagsId?: string | null,
 };
 
 export type DeleteTagInput = {
@@ -168,25 +167,28 @@ export type DeleteTagInput = {
 
 export type CreateResourceInput = {
   id?: string | null,
-  url: string,
+  experienceID: string,
+  title: string,
   description: string,
-  experienceResourcesId?: string | null,
+  url: string,
 };
 
 export type ModelResourceConditionInput = {
-  url?: ModelStringInput | null,
+  experienceID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  url?: ModelStringInput | null,
   and?: Array< ModelResourceConditionInput | null > | null,
   or?: Array< ModelResourceConditionInput | null > | null,
   not?: ModelResourceConditionInput | null,
-  experienceResourcesId?: ModelIDInput | null,
 };
 
 export type UpdateResourceInput = {
   id: string,
-  url?: string | null,
+  experienceID?: string | null,
+  title?: string | null,
   description?: string | null,
-  experienceResourcesId?: string | null,
+  url?: string | null,
 };
 
 export type DeleteResourceInput = {
@@ -214,22 +216,39 @@ export type ModelExperienceConnection = {
 
 export type ModelTagFilterInput = {
   id?: ModelIDInput | null,
+  experienceID?: ModelIDInput | null,
   title?: ModelStringInput | null,
   and?: Array< ModelTagFilterInput | null > | null,
   or?: Array< ModelTagFilterInput | null > | null,
   not?: ModelTagFilterInput | null,
-  experienceTagsId?: ModelIDInput | null,
 };
 
 export type ModelResourceFilterInput = {
   id?: ModelIDInput | null,
-  url?: ModelStringInput | null,
+  experienceID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  url?: ModelStringInput | null,
   and?: Array< ModelResourceFilterInput | null > | null,
   or?: Array< ModelResourceFilterInput | null > | null,
   not?: ModelResourceFilterInput | null,
-  experienceResourcesId?: ModelIDInput | null,
 };
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelSubscriptionExperienceFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -275,6 +294,7 @@ export type ModelSubscriptionStringInput = {
 
 export type ModelSubscriptionTagFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  experienceID?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionTagFilterInput | null > | null,
   or?: Array< ModelSubscriptionTagFilterInput | null > | null,
@@ -282,8 +302,10 @@ export type ModelSubscriptionTagFilterInput = {
 
 export type ModelSubscriptionResourceFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  url?: ModelSubscriptionStringInput | null,
+  experienceID?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
+  url?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionResourceFilterInput | null > | null,
   or?: Array< ModelSubscriptionResourceFilterInput | null > | null,
 };
@@ -308,10 +330,10 @@ export type CreateExperienceMutation = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -320,11 +342,12 @@ export type CreateExperienceMutation = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -353,10 +376,10 @@ export type UpdateExperienceMutation = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -365,11 +388,12 @@ export type UpdateExperienceMutation = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -398,10 +422,10 @@ export type DeleteExperienceMutation = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -410,11 +434,12 @@ export type DeleteExperienceMutation = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -432,30 +457,10 @@ export type CreateTagMutation = {
   createTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -468,30 +473,10 @@ export type UpdateTagMutation = {
   updateTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -504,30 +489,10 @@ export type DeleteTagMutation = {
   deleteTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -540,31 +505,12 @@ export type CreateResourceMutation = {
   createResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };
 
@@ -577,31 +523,12 @@ export type UpdateResourceMutation = {
   updateResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };
 
@@ -614,31 +541,12 @@ export type DeleteResourceMutation = {
   deleteResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };
 
@@ -661,10 +569,10 @@ export type GetExperienceQuery = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -673,11 +581,12 @@ export type GetExperienceQuery = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -727,30 +636,10 @@ export type GetTagQuery = {
   getTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -766,22 +655,10 @@ export type ListTagsQuery = {
     items:  Array< {
       __typename: "Tag",
       id: string,
+      experienceID: string,
       title: string,
-      experience?:  {
-        __typename: "Experience",
-        id: string,
-        name: string,
-        company: string,
-        location: string,
-        description: string,
-        dateBegin: string,
-        dateEnd: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
       createdAt: string,
       updatedAt: string,
-      experienceTagsId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -795,31 +672,12 @@ export type GetResourceQuery = {
   getResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };
 
@@ -835,23 +693,62 @@ export type ListResourcesQuery = {
     items:  Array< {
       __typename: "Resource",
       id: string,
-      url: string,
+      experienceID: string,
+      title: string,
       description: string,
-      experience?:  {
-        __typename: "Experience",
-        id: string,
-        name: string,
-        company: string,
-        location: string,
-        description: string,
-        dateBegin: string,
-        dateEnd: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
+      url: string,
       createdAt: string,
       updatedAt: string,
-      experienceResourcesId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type TagsByExperienceIDAndTitleQueryVariables = {
+  experienceID: string,
+  title?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTagFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TagsByExperienceIDAndTitleQuery = {
+  tagsByExperienceIDAndTitle?:  {
+    __typename: "ModelTagConnection",
+    items:  Array< {
+      __typename: "Tag",
+      id: string,
+      experienceID: string,
+      title: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ResourcesByExperienceIDAndTitleQueryVariables = {
+  experienceID: string,
+  title?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelResourceFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ResourcesByExperienceIDAndTitleQuery = {
+  resourcesByExperienceIDAndTitle?:  {
+    __typename: "ModelResourceConnection",
+    items:  Array< {
+      __typename: "Resource",
+      id: string,
+      experienceID: string,
+      title: string,
+      description: string,
+      url: string,
+      createdAt: string,
+      updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -876,10 +773,10 @@ export type OnCreateExperienceSubscription = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -888,11 +785,12 @@ export type OnCreateExperienceSubscription = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -920,10 +818,10 @@ export type OnUpdateExperienceSubscription = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -932,11 +830,12 @@ export type OnUpdateExperienceSubscription = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -964,10 +863,10 @@ export type OnDeleteExperienceSubscription = {
       items:  Array< {
         __typename: "Tag",
         id: string,
+        experienceID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
-        experienceTagsId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -976,11 +875,12 @@ export type OnDeleteExperienceSubscription = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        url: string,
+        experienceID: string,
+        title: string,
         description: string,
+        url: string,
         createdAt: string,
         updatedAt: string,
-        experienceResourcesId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -997,30 +897,10 @@ export type OnCreateTagSubscription = {
   onCreateTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -1032,30 +912,10 @@ export type OnUpdateTagSubscription = {
   onUpdateTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -1067,30 +927,10 @@ export type OnDeleteTagSubscription = {
   onDeleteTag?:  {
     __typename: "Tag",
     id: string,
+    experienceID: string,
     title: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
-    experienceTagsId?: string | null,
   } | null,
 };
 
@@ -1102,31 +942,12 @@ export type OnCreateResourceSubscription = {
   onCreateResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };
 
@@ -1138,31 +959,12 @@ export type OnUpdateResourceSubscription = {
   onUpdateResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };
 
@@ -1174,30 +976,11 @@ export type OnDeleteResourceSubscription = {
   onDeleteResource?:  {
     __typename: "Resource",
     id: string,
-    url: string,
+    experienceID: string,
+    title: string,
     description: string,
-    experience?:  {
-      __typename: "Experience",
-      id: string,
-      name: string,
-      company: string,
-      location: string,
-      description: string,
-      dateBegin: string,
-      dateEnd: string,
-      tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-      } | null,
-      resources?:  {
-        __typename: "ModelResourceConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    url: string,
     createdAt: string,
     updatedAt: string,
-    experienceResourcesId?: string | null,
   } | null,
 };

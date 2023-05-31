@@ -7,7 +7,3 @@
 export { default as studioTheme } from "./studioTheme";
 export { default as ExperienceCreateForm } from "./ExperienceCreateForm";
 export { default as ExperienceUpdateForm } from "./ExperienceUpdateForm";
-export { default as TagCreateForm } from "./TagCreateForm";
-export { default as TagUpdateForm } from "./TagUpdateForm";
-export { default as ResourceCreateForm } from "./ResourceCreateForm";
-export { default as ResourceUpdateForm } from "./ResourceUpdateForm";

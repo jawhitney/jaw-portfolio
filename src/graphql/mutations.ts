@@ -18,21 +18,22 @@ export const createExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -57,21 +58,22 @@ export const updateExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -96,21 +98,22 @@ export const deleteExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -126,27 +129,10 @@ export const createTag = /* GraphQL */ `
   ) {
     createTag(input: $input, condition: $condition) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -157,27 +143,10 @@ export const updateTag = /* GraphQL */ `
   ) {
     updateTag(input: $input, condition: $condition) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -188,27 +157,10 @@ export const deleteTag = /* GraphQL */ `
   ) {
     deleteTag(input: $input, condition: $condition) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -219,28 +171,12 @@ export const createResource = /* GraphQL */ `
   ) {
     createResource(input: $input, condition: $condition) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;
@@ -251,28 +187,12 @@ export const updateResource = /* GraphQL */ `
   ) {
     updateResource(input: $input, condition: $condition) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;
@@ -283,28 +203,12 @@ export const deleteResource = /* GraphQL */ `
   ) {
     deleteResource(input: $input, condition: $condition) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;

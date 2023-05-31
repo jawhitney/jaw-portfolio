@@ -15,21 +15,22 @@ export const getExperience = /* GraphQL */ `
       tags {
         items {
           id
+          experienceID
           title
           createdAt
           updatedAt
-          experienceTagsId
         }
         nextToken
       }
       resources {
         items {
           id
-          url
+          experienceID
+          title
           description
+          url
           createdAt
           updatedAt
-          experienceResourcesId
         }
         nextToken
       }
@@ -70,27 +71,10 @@ export const getTag = /* GraphQL */ `
   query GetTag($id: ID!) {
     getTag(id: $id) {
       id
+      experienceID
       title
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
-      experienceTagsId
     }
   }
 `;
@@ -103,21 +87,10 @@ export const listTags = /* GraphQL */ `
     listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        experienceID
         title
-        experience {
-          id
-          name
-          company
-          location
-          description
-          dateBegin
-          dateEnd
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
-        experienceTagsId
       }
       nextToken
     }
@@ -127,28 +100,12 @@ export const getResource = /* GraphQL */ `
   query GetResource($id: ID!) {
     getResource(id: $id) {
       id
-      url
+      experienceID
+      title
       description
-      experience {
-        id
-        name
-        company
-        location
-        description
-        dateBegin
-        dateEnd
-        tags {
-          nextToken
-        }
-        resources {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      url
       createdAt
       updatedAt
-      experienceResourcesId
     }
   }
 `;
@@ -161,22 +118,70 @@ export const listResources = /* GraphQL */ `
     listResources(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        url
+        experienceID
+        title
         description
-        experience {
-          id
-          name
-          company
-          location
-          description
-          dateBegin
-          dateEnd
-          createdAt
-          updatedAt
-        }
+        url
         createdAt
         updatedAt
-        experienceResourcesId
+      }
+      nextToken
+    }
+  }
+`;
+export const tagsByExperienceIDAndTitle = /* GraphQL */ `
+  query TagsByExperienceIDAndTitle(
+    $experienceID: ID!
+    $title: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    tagsByExperienceIDAndTitle(
+      experienceID: $experienceID
+      title: $title
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        experienceID
+        title
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const resourcesByExperienceIDAndTitle = /* GraphQL */ `
+  query ResourcesByExperienceIDAndTitle(
+    $experienceID: ID!
+    $title: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelResourceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    resourcesByExperienceIDAndTitle(
+      experienceID: $experienceID
+      title: $title
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        experienceID
+        title
+        description
+        url
+        createdAt
+        updatedAt
       }
       nextToken
     }

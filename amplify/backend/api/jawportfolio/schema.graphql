@@ -10,19 +10,20 @@ type Experience @model {
   description: String!
   dateBegin: AWSDateTime!
   dateEnd: AWSDateTime!
-  tags: [Tag] @hasMany
-  resources: [Resource] @hasMany
+  tags: [Tag] @hasMany(indexName: "byExperience", fields: ["id"])
+  resources: [Resource] @hasMany(indexName: "byExperience", fields: ["id"])
 }
 
 type Tag @model {
   id: ID!
+  experienceID: ID! @index(name: "byExperience", sortKeyFields: ["title"])
   title: String!
-  experience: Experience @belongsTo
 }
 
 type Resource @model {
   id: ID!
-  url: String!
+  experienceID: ID! @index(name: "byExperience", sortKeyFields: ["title"])
+  title: String!
   description: String!
-  experience: Experience @belongsTo
+  url: String!
 }
