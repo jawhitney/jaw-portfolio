@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import { API } from 'aws-amplify'
-import { resourcesByProjectIDAndTitle, tagsByProjectIDAndTitle } from "graphql/queries"
-import { Project as ProjectType, Resource as ResourceType, Tag as TagType } from 'API'
+import { resourcesByProjectIDAndTitle, tagsByProjectIDAndTitle, collaboratorsByProjectIDAndName } from "graphql/queries"
+import { Project as ProjectType, Resource as ResourceType, Tag as TagType, Collaborator as CollaboratorType } from 'API'
 import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, IconButton, ImageList, ImageListItem, Link, Typography } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import Skill from 'components/Skill'
@@ -15,6 +15,7 @@ export default function Project({ project }: Props) {
   const [open, setOpen] = useState<boolean>(false)
   const [resources, setResources] = useState<ResourceType[]>([])
   const [tags, setTags] = useState<TagType[]>([])
+  const [collaborators, setCollaborators] = useState<CollaboratorType[]>([])
 
   const handleOpen = () => {
     setOpen(true)
@@ -47,8 +48,20 @@ export default function Project({ project }: Props) {
       setTags(tags)
     }
 
+    async function fetchCollaborators() {
+      const response: any = await API.graphql({
+        query: collaboratorsByProjectIDAndName,
+        variables: {
+          projectID: project.id
+        }
+      });
+      const collaborators = response.data.collaboratorsByProjectIDAndName.items
+      setCollaborators(collaborators)
+    }
+
     fetchResources()
     fetchTags()
+    fetchCollaborators()
   }, [project.id])
 
   return (
@@ -90,6 +103,13 @@ export default function Project({ project }: Props) {
           </Typography>
           {tags.map((tag) => {
             return <Skill key={tag.id} skill={tag} />
+          })}
+          {collaborators.map((collaborator) => {
+            return (
+              <div key={collaborator.id}>
+                <Typography variant="body2" color="text.secondary">{collaborator.description} <Link href={collaborator.url}>{collaborator.name}</Link></Typography>
+              </div>
+            )
           })}
           <ImageList cols={1}>
             <ImageListItem>
