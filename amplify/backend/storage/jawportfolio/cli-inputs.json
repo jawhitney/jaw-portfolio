@@ -1,0 +1,13 @@
+{
+  "resourceName": "jawportfolio",
+  "policyUUID": "d3ea9b71",
+  "bucketName": "jawportfolio4f1c42c92a6343c7bf48ff97696bb82b",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}

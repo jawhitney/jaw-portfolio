@@ -17,6 +17,9 @@
       },
       "api": {
         "jawportfolio": {}
+      },
+      "storage": {
+        "jawportfolio": {}
       }
     }
   }
