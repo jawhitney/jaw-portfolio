@@ -12,24 +12,25 @@ export const getExperience = /* GraphQL */ `
       description
       dateBegin
       dateEnd
-      tags {
+      projects {
         items {
           id
           experienceID
           title
+          description
+          company
+          url
+          thumbnail
           createdAt
           updatedAt
         }
         nextToken
       }
-      resources {
+      skills {
         items {
           id
           experienceID
-          name
           title
-          description
-          url
           createdAt
           updatedAt
         }
@@ -55,6 +56,72 @@ export const listExperiences = /* GraphQL */ `
         description
         dateBegin
         dateEnd
+        projects {
+          nextToken
+        }
+        skills {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getProject = /* GraphQL */ `
+  query GetProject($id: ID!) {
+    getProject(id: $id) {
+      id
+      experienceID
+      title
+      description
+      company
+      url
+      thumbnail
+      tags {
+        items {
+          id
+          projectID
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      resources {
+        items {
+          id
+          projectID
+          name
+          title
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listProjects = /* GraphQL */ `
+  query ListProjects(
+    $filter: ModelProjectFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        experienceID
+        title
+        description
+        company
+        url
+        thumbnail
         tags {
           nextToken
         }
@@ -68,11 +135,40 @@ export const listExperiences = /* GraphQL */ `
     }
   }
 `;
+export const getSkill = /* GraphQL */ `
+  query GetSkill($id: ID!) {
+    getSkill(id: $id) {
+      id
+      experienceID
+      title
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSkills = /* GraphQL */ `
+  query ListSkills(
+    $filter: ModelSkillFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSkills(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        experienceID
+        title
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getTag = /* GraphQL */ `
   query GetTag($id: ID!) {
     getTag(id: $id) {
       id
-      experienceID
+      projectID
       title
       createdAt
       updatedAt
@@ -88,7 +184,7 @@ export const listTags = /* GraphQL */ `
     listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        experienceID
+        projectID
         title
         createdAt
         updatedAt
@@ -101,7 +197,7 @@ export const getResource = /* GraphQL */ `
   query GetResource($id: ID!) {
     getResource(id: $id) {
       id
-      experienceID
+      projectID
       name
       title
       description
@@ -120,7 +216,7 @@ export const listResources = /* GraphQL */ `
     listResources(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        experienceID
+        projectID
         name
         title
         description
@@ -132,16 +228,54 @@ export const listResources = /* GraphQL */ `
     }
   }
 `;
-export const tagsByExperienceIDAndTitle = /* GraphQL */ `
-  query TagsByExperienceIDAndTitle(
+export const projectsByExperienceIDAndTitle = /* GraphQL */ `
+  query ProjectsByExperienceIDAndTitle(
     $experienceID: ID!
     $title: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
-    $filter: ModelTagFilterInput
+    $filter: ModelProjectFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    tagsByExperienceIDAndTitle(
+    projectsByExperienceIDAndTitle(
+      experienceID: $experienceID
+      title: $title
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        experienceID
+        title
+        description
+        company
+        url
+        thumbnail
+        tags {
+          nextToken
+        }
+        resources {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const skillsByExperienceIDAndTitle = /* GraphQL */ `
+  query SkillsByExperienceIDAndTitle(
+    $experienceID: ID!
+    $title: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelSkillFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    skillsByExperienceIDAndTitle(
       experienceID: $experienceID
       title: $title
       sortDirection: $sortDirection
@@ -160,17 +294,17 @@ export const tagsByExperienceIDAndTitle = /* GraphQL */ `
     }
   }
 `;
-export const resourcesByExperienceIDAndTitle = /* GraphQL */ `
-  query ResourcesByExperienceIDAndTitle(
-    $experienceID: ID!
+export const tagsByProjectIDAndTitle = /* GraphQL */ `
+  query TagsByProjectIDAndTitle(
+    $projectID: ID!
     $title: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
-    $filter: ModelResourceFilterInput
+    $filter: ModelTagFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    resourcesByExperienceIDAndTitle(
-      experienceID: $experienceID
+    tagsByProjectIDAndTitle(
+      projectID: $projectID
       title: $title
       sortDirection: $sortDirection
       filter: $filter
@@ -179,7 +313,35 @@ export const resourcesByExperienceIDAndTitle = /* GraphQL */ `
     ) {
       items {
         id
-        experienceID
+        projectID
+        title
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const resourcesByProjectIDAndTitle = /* GraphQL */ `
+  query ResourcesByProjectIDAndTitle(
+    $projectID: ID!
+    $title: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelResourceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    resourcesByProjectIDAndTitle(
+      projectID: $projectID
+      title: $title
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        projectID
         name
         title
         description

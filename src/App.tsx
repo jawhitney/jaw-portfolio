@@ -1,45 +1,32 @@
 import { useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import logo from 'assets/jw-logo.svg'
+import headshot from 'assets/headshot.jpeg'
+
+import { orderBy } from 'lodash'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { FormControlLabel, Grid, Switch } from '@mui/material'
+import { Avatar, Box, FormControlLabel, Grid, Switch, Typography } from '@mui/material'
 
 import { API } from "aws-amplify"
-import { listExperiences, listTags, listResources } from "graphql/queries"
+import { listExperiences } from "graphql/queries"
+import { Experience as ExperienceType } from 'API'
 
-import Header from 'components/Header'
-import Home from 'components/routing/Home'
-import Projects from 'components/routing/Projects'
-import Resume from 'components/routing/Resume'
-import About from 'components/routing/About'
-import Contact from 'components/routing/Contact'
+import Experience from 'components/Experience'
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false)
+  const [experiences, setExperiences] = useState<ExperienceType[]>([])
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  async function fetchNotes() {
-    // const apiData: any = await API.graphql({ query: listExperiences });
-    // const experiencesFromAPI = apiData.data.listExperiences.items
-
-    // console.log('[debug] experiencesFromAPI', experiencesFromAPI)
-
-    const apiData: any = await API.graphql({ query: listResources });
-    const resourcesFromAPI = apiData.data.listResources.items
-    console.log('[debug] resourcesFromAPI', resourcesFromAPI)
-
-    // const notesFromAPI = apiData.data.listNotes.items;
-    // setNotes(notesFromAPI);
+  async function fetchExperiences() {
+    const response: any = await API.graphql({ query: listExperiences });
+    const experiences = response.data.listExperiences.items
+    const sortedExperiences = orderBy(experiences, ['dateBegin'], ['desc'])
+    setExperiences(sortedExperiences)
   }
 
   const theme = createTheme({
@@ -52,22 +39,28 @@ function App() {
     setDarkMode(event.target.checked)
   }
 
+  useEffect(() => {
+    fetchExperiences()
+  }, [])
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <main>
-        <section>Left</section>
-        <section>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/resume" element={<Resume />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </BrowserRouter>
-        </section>
+      <Grid container>
+        <Grid item md={5}>
+          <Box sx={{ position: 'sticky', top: 0 }}>
+            <Avatar alt="Jonathan Whitney" src={headshot} sx={{ width: 250, height: 250 }} />
+            <Typography>Jonathan Whitney</Typography>
+            <Typography>Full-Stack Developer/Engineer</Typography>
+            <Typography>Fast-learning, self-motivated, and self-taught digital developer. Experienced in full-stack development and design, responsive web design, and web applications.</Typography>
+            <Typography>B.S. in Aerospace Engineering from University of Colorado (Boulder, Colorado, 2001 - 2005)</Typography>
+          </Box>
+        </Grid>
+        <Grid item md={7}>
+          {experiences.map((experience) => {
+            return <Experience key={experience.id} experience={experience} />
+          })}
+        </Grid>
         <div className="darkMode">
           <FormControlLabel
             control={<Switch
@@ -78,7 +71,7 @@ function App() {
             label="Dark Mode"
           />
         </div>
-      </main>
+      </Grid>
     </ThemeProvider>
   )
 }

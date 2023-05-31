@@ -15,24 +15,25 @@ export const createExperience = /* GraphQL */ `
       description
       dateBegin
       dateEnd
-      tags {
+      projects {
         items {
           id
           experienceID
           title
+          description
+          company
+          url
+          thumbnail
           createdAt
           updatedAt
         }
         nextToken
       }
-      resources {
+      skills {
         items {
           id
           experienceID
-          name
           title
-          description
-          url
           createdAt
           updatedAt
         }
@@ -56,24 +57,25 @@ export const updateExperience = /* GraphQL */ `
       description
       dateBegin
       dateEnd
-      tags {
+      projects {
         items {
           id
           experienceID
           title
+          description
+          company
+          url
+          thumbnail
           createdAt
           updatedAt
         }
         nextToken
       }
-      resources {
+      skills {
         items {
           id
           experienceID
-          name
           title
-          description
-          url
           createdAt
           updatedAt
         }
@@ -97,7 +99,21 @@ export const deleteExperience = /* GraphQL */ `
       description
       dateBegin
       dateEnd
-      tags {
+      projects {
+        items {
+          id
+          experienceID
+          title
+          description
+          company
+          url
+          thumbnail
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      skills {
         items {
           id
           experienceID
@@ -107,10 +123,38 @@ export const deleteExperience = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createProject = /* GraphQL */ `
+  mutation CreateProject(
+    $input: CreateProjectInput!
+    $condition: ModelProjectConditionInput
+  ) {
+    createProject(input: $input, condition: $condition) {
+      id
+      experienceID
+      title
+      description
+      company
+      url
+      thumbnail
+      tags {
+        items {
+          id
+          projectID
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       resources {
         items {
           id
-          experienceID
+          projectID
           name
           title
           description
@@ -125,6 +169,130 @@ export const deleteExperience = /* GraphQL */ `
     }
   }
 `;
+export const updateProject = /* GraphQL */ `
+  mutation UpdateProject(
+    $input: UpdateProjectInput!
+    $condition: ModelProjectConditionInput
+  ) {
+    updateProject(input: $input, condition: $condition) {
+      id
+      experienceID
+      title
+      description
+      company
+      url
+      thumbnail
+      tags {
+        items {
+          id
+          projectID
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      resources {
+        items {
+          id
+          projectID
+          name
+          title
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteProject = /* GraphQL */ `
+  mutation DeleteProject(
+    $input: DeleteProjectInput!
+    $condition: ModelProjectConditionInput
+  ) {
+    deleteProject(input: $input, condition: $condition) {
+      id
+      experienceID
+      title
+      description
+      company
+      url
+      thumbnail
+      tags {
+        items {
+          id
+          projectID
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      resources {
+        items {
+          id
+          projectID
+          name
+          title
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSkill = /* GraphQL */ `
+  mutation CreateSkill(
+    $input: CreateSkillInput!
+    $condition: ModelSkillConditionInput
+  ) {
+    createSkill(input: $input, condition: $condition) {
+      id
+      experienceID
+      title
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSkill = /* GraphQL */ `
+  mutation UpdateSkill(
+    $input: UpdateSkillInput!
+    $condition: ModelSkillConditionInput
+  ) {
+    updateSkill(input: $input, condition: $condition) {
+      id
+      experienceID
+      title
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSkill = /* GraphQL */ `
+  mutation DeleteSkill(
+    $input: DeleteSkillInput!
+    $condition: ModelSkillConditionInput
+  ) {
+    deleteSkill(input: $input, condition: $condition) {
+      id
+      experienceID
+      title
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTag = /* GraphQL */ `
   mutation CreateTag(
     $input: CreateTagInput!
@@ -132,7 +300,7 @@ export const createTag = /* GraphQL */ `
   ) {
     createTag(input: $input, condition: $condition) {
       id
-      experienceID
+      projectID
       title
       createdAt
       updatedAt
@@ -146,7 +314,7 @@ export const updateTag = /* GraphQL */ `
   ) {
     updateTag(input: $input, condition: $condition) {
       id
-      experienceID
+      projectID
       title
       createdAt
       updatedAt
@@ -160,7 +328,7 @@ export const deleteTag = /* GraphQL */ `
   ) {
     deleteTag(input: $input, condition: $condition) {
       id
-      experienceID
+      projectID
       title
       createdAt
       updatedAt
@@ -174,7 +342,7 @@ export const createResource = /* GraphQL */ `
   ) {
     createResource(input: $input, condition: $condition) {
       id
-      experienceID
+      projectID
       name
       title
       description
@@ -191,7 +359,7 @@ export const updateResource = /* GraphQL */ `
   ) {
     updateResource(input: $input, condition: $condition) {
       id
-      experienceID
+      projectID
       name
       title
       description
@@ -208,7 +376,7 @@ export const deleteResource = /* GraphQL */ `
   ) {
     deleteResource(input: $input, condition: $condition) {
       id
-      experienceID
+      projectID
       name
       title
       description

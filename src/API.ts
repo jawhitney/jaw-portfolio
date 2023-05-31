@@ -73,6 +73,27 @@ export type Experience = {
   description: string,
   dateBegin: string,
   dateEnd: string,
+  projects?: ModelProjectConnection | null,
+  skills?: ModelSkillConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelProjectConnection = {
+  __typename: "ModelProjectConnection",
+  items:  Array<Project | null >,
+  nextToken?: string | null,
+};
+
+export type Project = {
+  __typename: "Project",
+  id: string,
+  experienceID: string,
+  title: string,
+  description: string,
+  company: string,
+  url?: string | null,
+  thumbnail: string,
   tags?: ModelTagConnection | null,
   resources?: ModelResourceConnection | null,
   createdAt: string,
@@ -88,7 +109,7 @@ export type ModelTagConnection = {
 export type Tag = {
   __typename: "Tag",
   id: string,
-  experienceID: string,
+  projectID: string,
   title: string,
   createdAt: string,
   updatedAt: string,
@@ -103,11 +124,26 @@ export type ModelResourceConnection = {
 export type Resource = {
   __typename: "Resource",
   id: string,
-  experienceID: string,
+  projectID: string,
   name: string,
   title: string,
   description: string,
   url: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelSkillConnection = {
+  __typename: "ModelSkillConnection",
+  items:  Array<Skill | null >,
+  nextToken?: string | null,
+};
+
+export type Skill = {
+  __typename: "Skill",
+  id: string,
+  experienceID: string,
+  title: string,
   createdAt: string,
   updatedAt: string,
 };
@@ -126,18 +162,26 @@ export type DeleteExperienceInput = {
   id: string,
 };
 
-export type CreateTagInput = {
+export type CreateProjectInput = {
   id?: string | null,
   experienceID: string,
   title: string,
+  description: string,
+  company: string,
+  url?: string | null,
+  thumbnail: string,
 };
 
-export type ModelTagConditionInput = {
+export type ModelProjectConditionInput = {
   experienceID?: ModelIDInput | null,
   title?: ModelStringInput | null,
-  and?: Array< ModelTagConditionInput | null > | null,
-  or?: Array< ModelTagConditionInput | null > | null,
-  not?: ModelTagConditionInput | null,
+  description?: ModelStringInput | null,
+  company?: ModelStringInput | null,
+  url?: ModelStringInput | null,
+  thumbnail?: ModelStringInput | null,
+  and?: Array< ModelProjectConditionInput | null > | null,
+  or?: Array< ModelProjectConditionInput | null > | null,
+  not?: ModelProjectConditionInput | null,
 };
 
 export type ModelIDInput = {
@@ -156,9 +200,61 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdateTagInput = {
+export type UpdateProjectInput = {
   id: string,
   experienceID?: string | null,
+  title?: string | null,
+  description?: string | null,
+  company?: string | null,
+  url?: string | null,
+  thumbnail?: string | null,
+};
+
+export type DeleteProjectInput = {
+  id: string,
+};
+
+export type CreateSkillInput = {
+  id?: string | null,
+  experienceID: string,
+  title: string,
+};
+
+export type ModelSkillConditionInput = {
+  experienceID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  and?: Array< ModelSkillConditionInput | null > | null,
+  or?: Array< ModelSkillConditionInput | null > | null,
+  not?: ModelSkillConditionInput | null,
+};
+
+export type UpdateSkillInput = {
+  id: string,
+  experienceID?: string | null,
+  title?: string | null,
+};
+
+export type DeleteSkillInput = {
+  id: string,
+};
+
+export type CreateTagInput = {
+  id?: string | null,
+  projectID: string,
+  title: string,
+};
+
+export type ModelTagConditionInput = {
+  projectID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  and?: Array< ModelTagConditionInput | null > | null,
+  or?: Array< ModelTagConditionInput | null > | null,
+  not?: ModelTagConditionInput | null,
+};
+
+export type UpdateTagInput = {
+  id: string,
+  projectID?: string | null,
   title?: string | null,
 };
 
@@ -168,7 +264,7 @@ export type DeleteTagInput = {
 
 export type CreateResourceInput = {
   id?: string | null,
-  experienceID: string,
+  projectID: string,
   name: string,
   title: string,
   description: string,
@@ -176,7 +272,7 @@ export type CreateResourceInput = {
 };
 
 export type ModelResourceConditionInput = {
-  experienceID?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
@@ -188,7 +284,7 @@ export type ModelResourceConditionInput = {
 
 export type UpdateResourceInput = {
   id: string,
-  experienceID?: string | null,
+  projectID?: string | null,
   name?: string | null,
   title?: string | null,
   description?: string | null,
@@ -218,9 +314,31 @@ export type ModelExperienceConnection = {
   nextToken?: string | null,
 };
 
-export type ModelTagFilterInput = {
+export type ModelProjectFilterInput = {
   id?: ModelIDInput | null,
   experienceID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  company?: ModelStringInput | null,
+  url?: ModelStringInput | null,
+  thumbnail?: ModelStringInput | null,
+  and?: Array< ModelProjectFilterInput | null > | null,
+  or?: Array< ModelProjectFilterInput | null > | null,
+  not?: ModelProjectFilterInput | null,
+};
+
+export type ModelSkillFilterInput = {
+  id?: ModelIDInput | null,
+  experienceID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  and?: Array< ModelSkillFilterInput | null > | null,
+  or?: Array< ModelSkillFilterInput | null > | null,
+  not?: ModelSkillFilterInput | null,
+};
+
+export type ModelTagFilterInput = {
+  id?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
   title?: ModelStringInput | null,
   and?: Array< ModelTagFilterInput | null > | null,
   or?: Array< ModelTagFilterInput | null > | null,
@@ -229,7 +347,7 @@ export type ModelTagFilterInput = {
 
 export type ModelResourceFilterInput = {
   id?: ModelIDInput | null,
-  experienceID?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
@@ -297,9 +415,29 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionTagFilterInput = {
+export type ModelSubscriptionProjectFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   experienceID?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  company?: ModelSubscriptionStringInput | null,
+  url?: ModelSubscriptionStringInput | null,
+  thumbnail?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionProjectFilterInput | null > | null,
+  or?: Array< ModelSubscriptionProjectFilterInput | null > | null,
+};
+
+export type ModelSubscriptionSkillFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  experienceID?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionSkillFilterInput | null > | null,
+  or?: Array< ModelSubscriptionSkillFilterInput | null > | null,
+};
+
+export type ModelSubscriptionTagFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  projectID?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionTagFilterInput | null > | null,
   or?: Array< ModelSubscriptionTagFilterInput | null > | null,
@@ -307,7 +445,7 @@ export type ModelSubscriptionTagFilterInput = {
 
 export type ModelSubscriptionResourceFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  experienceID?: ModelSubscriptionIDInput | null,
+  projectID?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
   title?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
@@ -331,28 +469,29 @@ export type CreateExperienceMutation = {
     description: string,
     dateBegin: string,
     dateEnd: string,
-    tags?:  {
-      __typename: "ModelTagConnection",
+    projects?:  {
+      __typename: "ModelProjectConnection",
       items:  Array< {
-        __typename: "Tag",
+        __typename: "Project",
         id: string,
         experienceID: string,
         title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
-    resources?:  {
-      __typename: "ModelResourceConnection",
+    skills?:  {
+      __typename: "ModelSkillConnection",
       items:  Array< {
-        __typename: "Resource",
+        __typename: "Skill",
         id: string,
         experienceID: string,
-        name: string,
         title: string,
-        description: string,
-        url: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -378,28 +517,29 @@ export type UpdateExperienceMutation = {
     description: string,
     dateBegin: string,
     dateEnd: string,
-    tags?:  {
-      __typename: "ModelTagConnection",
+    projects?:  {
+      __typename: "ModelProjectConnection",
       items:  Array< {
-        __typename: "Tag",
+        __typename: "Project",
         id: string,
         experienceID: string,
         title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
-    resources?:  {
-      __typename: "ModelResourceConnection",
+    skills?:  {
+      __typename: "ModelSkillConnection",
       items:  Array< {
-        __typename: "Resource",
+        __typename: "Skill",
         id: string,
         experienceID: string,
-        name: string,
         title: string,
-        description: string,
-        url: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -425,12 +565,60 @@ export type DeleteExperienceMutation = {
     description: string,
     dateBegin: string,
     dateEnd: string,
+    projects?:  {
+      __typename: "ModelProjectConnection",
+      items:  Array< {
+        __typename: "Project",
+        id: string,
+        experienceID: string,
+        title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    skills?:  {
+      __typename: "ModelSkillConnection",
+      items:  Array< {
+        __typename: "Skill",
+        id: string,
+        experienceID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateProjectMutationVariables = {
+  input: CreateProjectInput,
+  condition?: ModelProjectConditionInput | null,
+};
+
+export type CreateProjectMutation = {
+  createProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
     tags?:  {
       __typename: "ModelTagConnection",
       items:  Array< {
         __typename: "Tag",
         id: string,
-        experienceID: string,
+        projectID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
@@ -442,7 +630,7 @@ export type DeleteExperienceMutation = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        experienceID: string,
+        projectID: string,
         name: string,
         title: string,
         description: string,
@@ -457,6 +645,148 @@ export type DeleteExperienceMutation = {
   } | null,
 };
 
+export type UpdateProjectMutationVariables = {
+  input: UpdateProjectInput,
+  condition?: ModelProjectConditionInput | null,
+};
+
+export type UpdateProjectMutation = {
+  updateProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
+    tags?:  {
+      __typename: "ModelTagConnection",
+      items:  Array< {
+        __typename: "Tag",
+        id: string,
+        projectID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    resources?:  {
+      __typename: "ModelResourceConnection",
+      items:  Array< {
+        __typename: "Resource",
+        id: string,
+        projectID: string,
+        name: string,
+        title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteProjectMutationVariables = {
+  input: DeleteProjectInput,
+  condition?: ModelProjectConditionInput | null,
+};
+
+export type DeleteProjectMutation = {
+  deleteProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
+    tags?:  {
+      __typename: "ModelTagConnection",
+      items:  Array< {
+        __typename: "Tag",
+        id: string,
+        projectID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    resources?:  {
+      __typename: "ModelResourceConnection",
+      items:  Array< {
+        __typename: "Resource",
+        id: string,
+        projectID: string,
+        name: string,
+        title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateSkillMutationVariables = {
+  input: CreateSkillInput,
+  condition?: ModelSkillConditionInput | null,
+};
+
+export type CreateSkillMutation = {
+  createSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateSkillMutationVariables = {
+  input: UpdateSkillInput,
+  condition?: ModelSkillConditionInput | null,
+};
+
+export type UpdateSkillMutation = {
+  updateSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteSkillMutationVariables = {
+  input: DeleteSkillInput,
+  condition?: ModelSkillConditionInput | null,
+};
+
+export type DeleteSkillMutation = {
+  deleteSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateTagMutationVariables = {
   input: CreateTagInput,
   condition?: ModelTagConditionInput | null,
@@ -466,7 +796,7 @@ export type CreateTagMutation = {
   createTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -482,7 +812,7 @@ export type UpdateTagMutation = {
   updateTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -498,7 +828,7 @@ export type DeleteTagMutation = {
   deleteTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -514,7 +844,7 @@ export type CreateResourceMutation = {
   createResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
@@ -533,7 +863,7 @@ export type UpdateResourceMutation = {
   updateResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
@@ -552,7 +882,7 @@ export type DeleteResourceMutation = {
   deleteResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
@@ -576,28 +906,29 @@ export type GetExperienceQuery = {
     description: string,
     dateBegin: string,
     dateEnd: string,
-    tags?:  {
-      __typename: "ModelTagConnection",
+    projects?:  {
+      __typename: "ModelProjectConnection",
       items:  Array< {
-        __typename: "Tag",
+        __typename: "Project",
         id: string,
         experienceID: string,
         title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
-    resources?:  {
-      __typename: "ModelResourceConnection",
+    skills?:  {
+      __typename: "ModelSkillConnection",
       items:  Array< {
-        __typename: "Resource",
+        __typename: "Skill",
         id: string,
         experienceID: string,
-        name: string,
         title: string,
-        description: string,
-        url: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -626,6 +957,85 @@ export type ListExperiencesQuery = {
       description: string,
       dateBegin: string,
       dateEnd: string,
+      projects?:  {
+        __typename: "ModelProjectConnection",
+        nextToken?: string | null,
+      } | null,
+      skills?:  {
+        __typename: "ModelSkillConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetProjectQueryVariables = {
+  id: string,
+};
+
+export type GetProjectQuery = {
+  getProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
+    tags?:  {
+      __typename: "ModelTagConnection",
+      items:  Array< {
+        __typename: "Tag",
+        id: string,
+        projectID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    resources?:  {
+      __typename: "ModelResourceConnection",
+      items:  Array< {
+        __typename: "Resource",
+        id: string,
+        projectID: string,
+        name: string,
+        title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListProjectsQueryVariables = {
+  filter?: ModelProjectFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListProjectsQuery = {
+  listProjects?:  {
+    __typename: "ModelProjectConnection",
+    items:  Array< {
+      __typename: "Project",
+      id: string,
+      experienceID: string,
+      title: string,
+      description: string,
+      company: string,
+      url?: string | null,
+      thumbnail: string,
       tags?:  {
         __typename: "ModelTagConnection",
         nextToken?: string | null,
@@ -641,6 +1051,42 @@ export type ListExperiencesQuery = {
   } | null,
 };
 
+export type GetSkillQueryVariables = {
+  id: string,
+};
+
+export type GetSkillQuery = {
+  getSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListSkillsQueryVariables = {
+  filter?: ModelSkillFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListSkillsQuery = {
+  listSkills?:  {
+    __typename: "ModelSkillConnection",
+    items:  Array< {
+      __typename: "Skill",
+      id: string,
+      experienceID: string,
+      title: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetTagQueryVariables = {
   id: string,
 };
@@ -649,7 +1095,7 @@ export type GetTagQuery = {
   getTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -668,7 +1114,7 @@ export type ListTagsQuery = {
     items:  Array< {
       __typename: "Tag",
       id: string,
-      experienceID: string,
+      projectID: string,
       title: string,
       createdAt: string,
       updatedAt: string,
@@ -685,7 +1131,7 @@ export type GetResourceQuery = {
   getResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
@@ -707,7 +1153,7 @@ export type ListResourcesQuery = {
     items:  Array< {
       __typename: "Resource",
       id: string,
-      experienceID: string,
+      projectID: string,
       name: string,
       title: string,
       description: string,
@@ -719,20 +1165,56 @@ export type ListResourcesQuery = {
   } | null,
 };
 
-export type TagsByExperienceIDAndTitleQueryVariables = {
+export type ProjectsByExperienceIDAndTitleQueryVariables = {
   experienceID: string,
   title?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelTagFilterInput | null,
+  filter?: ModelProjectFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type TagsByExperienceIDAndTitleQuery = {
-  tagsByExperienceIDAndTitle?:  {
-    __typename: "ModelTagConnection",
+export type ProjectsByExperienceIDAndTitleQuery = {
+  projectsByExperienceIDAndTitle?:  {
+    __typename: "ModelProjectConnection",
     items:  Array< {
-      __typename: "Tag",
+      __typename: "Project",
+      id: string,
+      experienceID: string,
+      title: string,
+      description: string,
+      company: string,
+      url?: string | null,
+      thumbnail: string,
+      tags?:  {
+        __typename: "ModelTagConnection",
+        nextToken?: string | null,
+      } | null,
+      resources?:  {
+        __typename: "ModelResourceConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type SkillsByExperienceIDAndTitleQueryVariables = {
+  experienceID: string,
+  title?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelSkillFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SkillsByExperienceIDAndTitleQuery = {
+  skillsByExperienceIDAndTitle?:  {
+    __typename: "ModelSkillConnection",
+    items:  Array< {
+      __typename: "Skill",
       id: string,
       experienceID: string,
       title: string,
@@ -743,8 +1225,32 @@ export type TagsByExperienceIDAndTitleQuery = {
   } | null,
 };
 
-export type ResourcesByExperienceIDAndTitleQueryVariables = {
-  experienceID: string,
+export type TagsByProjectIDAndTitleQueryVariables = {
+  projectID: string,
+  title?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTagFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TagsByProjectIDAndTitleQuery = {
+  tagsByProjectIDAndTitle?:  {
+    __typename: "ModelTagConnection",
+    items:  Array< {
+      __typename: "Tag",
+      id: string,
+      projectID: string,
+      title: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ResourcesByProjectIDAndTitleQueryVariables = {
+  projectID: string,
   title?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelResourceFilterInput | null,
@@ -752,13 +1258,13 @@ export type ResourcesByExperienceIDAndTitleQueryVariables = {
   nextToken?: string | null,
 };
 
-export type ResourcesByExperienceIDAndTitleQuery = {
-  resourcesByExperienceIDAndTitle?:  {
+export type ResourcesByProjectIDAndTitleQuery = {
+  resourcesByProjectIDAndTitle?:  {
     __typename: "ModelResourceConnection",
     items:  Array< {
       __typename: "Resource",
       id: string,
-      experienceID: string,
+      projectID: string,
       name: string,
       title: string,
       description: string,
@@ -784,28 +1290,29 @@ export type OnCreateExperienceSubscription = {
     description: string,
     dateBegin: string,
     dateEnd: string,
-    tags?:  {
-      __typename: "ModelTagConnection",
+    projects?:  {
+      __typename: "ModelProjectConnection",
       items:  Array< {
-        __typename: "Tag",
+        __typename: "Project",
         id: string,
         experienceID: string,
         title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
-    resources?:  {
-      __typename: "ModelResourceConnection",
+    skills?:  {
+      __typename: "ModelSkillConnection",
       items:  Array< {
-        __typename: "Resource",
+        __typename: "Skill",
         id: string,
         experienceID: string,
-        name: string,
         title: string,
-        description: string,
-        url: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -830,28 +1337,29 @@ export type OnUpdateExperienceSubscription = {
     description: string,
     dateBegin: string,
     dateEnd: string,
-    tags?:  {
-      __typename: "ModelTagConnection",
+    projects?:  {
+      __typename: "ModelProjectConnection",
       items:  Array< {
-        __typename: "Tag",
+        __typename: "Project",
         id: string,
         experienceID: string,
         title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
-    resources?:  {
-      __typename: "ModelResourceConnection",
+    skills?:  {
+      __typename: "ModelSkillConnection",
       items:  Array< {
-        __typename: "Resource",
+        __typename: "Skill",
         id: string,
         experienceID: string,
-        name: string,
         title: string,
-        description: string,
-        url: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -876,12 +1384,59 @@ export type OnDeleteExperienceSubscription = {
     description: string,
     dateBegin: string,
     dateEnd: string,
+    projects?:  {
+      __typename: "ModelProjectConnection",
+      items:  Array< {
+        __typename: "Project",
+        id: string,
+        experienceID: string,
+        title: string,
+        description: string,
+        company: string,
+        url?: string | null,
+        thumbnail: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    skills?:  {
+      __typename: "ModelSkillConnection",
+      items:  Array< {
+        __typename: "Skill",
+        id: string,
+        experienceID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateProjectSubscriptionVariables = {
+  filter?: ModelSubscriptionProjectFilterInput | null,
+};
+
+export type OnCreateProjectSubscription = {
+  onCreateProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
     tags?:  {
       __typename: "ModelTagConnection",
       items:  Array< {
         __typename: "Tag",
         id: string,
-        experienceID: string,
+        projectID: string,
         title: string,
         createdAt: string,
         updatedAt: string,
@@ -893,7 +1448,7 @@ export type OnDeleteExperienceSubscription = {
       items:  Array< {
         __typename: "Resource",
         id: string,
-        experienceID: string,
+        projectID: string,
         name: string,
         title: string,
         description: string,
@@ -908,6 +1463,143 @@ export type OnDeleteExperienceSubscription = {
   } | null,
 };
 
+export type OnUpdateProjectSubscriptionVariables = {
+  filter?: ModelSubscriptionProjectFilterInput | null,
+};
+
+export type OnUpdateProjectSubscription = {
+  onUpdateProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
+    tags?:  {
+      __typename: "ModelTagConnection",
+      items:  Array< {
+        __typename: "Tag",
+        id: string,
+        projectID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    resources?:  {
+      __typename: "ModelResourceConnection",
+      items:  Array< {
+        __typename: "Resource",
+        id: string,
+        projectID: string,
+        name: string,
+        title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteProjectSubscriptionVariables = {
+  filter?: ModelSubscriptionProjectFilterInput | null,
+};
+
+export type OnDeleteProjectSubscription = {
+  onDeleteProject?:  {
+    __typename: "Project",
+    id: string,
+    experienceID: string,
+    title: string,
+    description: string,
+    company: string,
+    url?: string | null,
+    thumbnail: string,
+    tags?:  {
+      __typename: "ModelTagConnection",
+      items:  Array< {
+        __typename: "Tag",
+        id: string,
+        projectID: string,
+        title: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    resources?:  {
+      __typename: "ModelResourceConnection",
+      items:  Array< {
+        __typename: "Resource",
+        id: string,
+        projectID: string,
+        name: string,
+        title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateSkillSubscriptionVariables = {
+  filter?: ModelSubscriptionSkillFilterInput | null,
+};
+
+export type OnCreateSkillSubscription = {
+  onCreateSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateSkillSubscriptionVariables = {
+  filter?: ModelSubscriptionSkillFilterInput | null,
+};
+
+export type OnUpdateSkillSubscription = {
+  onUpdateSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteSkillSubscriptionVariables = {
+  filter?: ModelSubscriptionSkillFilterInput | null,
+};
+
+export type OnDeleteSkillSubscription = {
+  onDeleteSkill?:  {
+    __typename: "Skill",
+    id: string,
+    experienceID: string,
+    title: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateTagSubscriptionVariables = {
   filter?: ModelSubscriptionTagFilterInput | null,
 };
@@ -916,7 +1608,7 @@ export type OnCreateTagSubscription = {
   onCreateTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -931,7 +1623,7 @@ export type OnUpdateTagSubscription = {
   onUpdateTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -946,7 +1638,7 @@ export type OnDeleteTagSubscription = {
   onDeleteTag?:  {
     __typename: "Tag",
     id: string,
-    experienceID: string,
+    projectID: string,
     title: string,
     createdAt: string,
     updatedAt: string,
@@ -961,7 +1653,7 @@ export type OnCreateResourceSubscription = {
   onCreateResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
@@ -979,7 +1671,7 @@ export type OnUpdateResourceSubscription = {
   onUpdateResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
@@ -997,7 +1689,7 @@ export type OnDeleteResourceSubscription = {
   onDeleteResource?:  {
     __typename: "Resource",
     id: string,
-    experienceID: string,
+    projectID: string,
     name: string,
     title: string,
     description: string,
