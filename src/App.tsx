@@ -15,9 +15,12 @@ import {
   Box,
   FormControlLabel,
   Grid,
+  IconButton,
+  Link,
   Switch,
   Typography,
 } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { API } from "aws-amplify";
 import { listExperiences } from "graphql/queries";
@@ -71,6 +74,14 @@ function App() {
             <Typography>
               B.S. in Aerospace Engineering from University of Colorado
               (Boulder, Colorado, 2001 - 2005)
+            </Typography>
+            <Typography>
+              This site is a React application hosted on AWS
+              <Link href="https://github.com/jawhitney/jaw-portfolio">
+                <IconButton aria-label="Link to GitHub Repo">
+                  <OpenInNewIcon />
+                </IconButton>
+              </Link>
             </Typography>
           </Box>
         </Grid>

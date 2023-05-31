@@ -116,7 +116,7 @@ export default function Project({ project }: Props) {
           {project.title}
           {project.url && (
             <Link href={project.url}>
-              <IconButton aria-label="delete">
+              <IconButton aria-label="Project URL">
                 <OpenInNewIcon />
               </IconButton>
             </Link>
