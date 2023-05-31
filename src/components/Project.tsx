@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { API } from 'aws-amplify'
 import { resourcesByProjectIDAndTitle, tagsByProjectIDAndTitle } from "graphql/queries"
 import { Project as ProjectType, Resource as ResourceType, Tag as TagType } from 'API'
-import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, ImageList, ImageListItem, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, IconButton, ImageList, ImageListItem, Link, Typography } from '@mui/material'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import Skill from 'components/Skill'
 
 interface Props {
@@ -73,7 +74,16 @@ export default function Project({ project }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>{project.title}</DialogTitle>
+        <DialogTitle>
+          {project.title}
+          {project.url && (
+            <Link href={project.url}>
+              <IconButton aria-label="delete">
+                <OpenInNewIcon />
+              </IconButton>
+            </Link>
+          )}
+        </DialogTitle>
         <DialogContent>
           <Typography variant="body2" color="text.secondary">
             {project.description}
