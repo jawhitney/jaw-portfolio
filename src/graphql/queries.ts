@@ -102,6 +102,18 @@ export const getProject = /* GraphQL */ `
         }
         nextToken
       }
+      collaborators {
+        items {
+          id
+          projectID
+          name
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -126,6 +138,9 @@ export const listProjects = /* GraphQL */ `
           nextToken
         }
         resources {
+          nextToken
+        }
+        collaborators {
           nextToken
         }
         createdAt
@@ -228,6 +243,39 @@ export const listResources = /* GraphQL */ `
     }
   }
 `;
+export const getCollaborator = /* GraphQL */ `
+  query GetCollaborator($id: ID!) {
+    getCollaborator(id: $id) {
+      id
+      projectID
+      name
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCollaborators = /* GraphQL */ `
+  query ListCollaborators(
+    $filter: ModelCollaboratorFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCollaborators(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        projectID
+        name
+        description
+        url
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const projectsByExperienceIDAndTitle = /* GraphQL */ `
   query ProjectsByExperienceIDAndTitle(
     $experienceID: ID!
@@ -257,6 +305,9 @@ export const projectsByExperienceIDAndTitle = /* GraphQL */ `
           nextToken
         }
         resources {
+          nextToken
+        }
+        collaborators {
           nextToken
         }
         createdAt
@@ -344,6 +395,36 @@ export const resourcesByProjectIDAndTitle = /* GraphQL */ `
         projectID
         name
         title
+        description
+        url
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const collaboratorsByProjectIDAndName = /* GraphQL */ `
+  query CollaboratorsByProjectIDAndName(
+    $projectID: ID!
+    $name: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCollaboratorFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    collaboratorsByProjectIDAndName(
+      projectID: $projectID
+      name: $name
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        projectID
+        name
         description
         url
         createdAt

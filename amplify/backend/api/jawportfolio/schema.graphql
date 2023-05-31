@@ -24,6 +24,7 @@ type Project @model {
   thumbnail: String!
   tags: [Tag] @hasMany(indexName: "byProject", fields: ["id"])
   resources: [Resource] @hasMany(indexName: "byProject", fields: ["id"])
+  collaborators: [Collaborator] @hasMany(indexName: "byProject", fields: ["id"])
 }
 
 type Skill @model {
@@ -43,6 +44,14 @@ type Resource @model {
   projectID: ID! @index(name: "byProject", sortKeyFields: ["title"])
   name: String!
   title: String!
+  description: String!
+  url: String!
+}
+
+type Collaborator @model {
+  id: ID!
+  projectID: ID! @index(name: "byProject", sortKeyFields: ["name"])
+  name: String!
   description: String!
   url: String!
 }

@@ -164,6 +164,18 @@ export const createProject = /* GraphQL */ `
         }
         nextToken
       }
+      collaborators {
+        items {
+          id
+          projectID
+          name
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -205,6 +217,18 @@ export const updateProject = /* GraphQL */ `
         }
         nextToken
       }
+      collaborators {
+        items {
+          id
+          projectID
+          name
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -239,6 +263,18 @@ export const deleteProject = /* GraphQL */ `
           projectID
           name
           title
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      collaborators {
+        items {
+          id
+          projectID
+          name
           description
           url
           createdAt
@@ -379,6 +415,54 @@ export const deleteResource = /* GraphQL */ `
       projectID
       name
       title
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCollaborator = /* GraphQL */ `
+  mutation CreateCollaborator(
+    $input: CreateCollaboratorInput!
+    $condition: ModelCollaboratorConditionInput
+  ) {
+    createCollaborator(input: $input, condition: $condition) {
+      id
+      projectID
+      name
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCollaborator = /* GraphQL */ `
+  mutation UpdateCollaborator(
+    $input: UpdateCollaboratorInput!
+    $condition: ModelCollaboratorConditionInput
+  ) {
+    updateCollaborator(input: $input, condition: $condition) {
+      id
+      projectID
+      name
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCollaborator = /* GraphQL */ `
+  mutation DeleteCollaborator(
+    $input: DeleteCollaboratorInput!
+    $condition: ModelCollaboratorConditionInput
+  ) {
+    deleteCollaborator(input: $input, condition: $condition) {
+      id
+      projectID
+      name
       description
       url
       createdAt

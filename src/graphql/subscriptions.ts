@@ -158,6 +158,18 @@ export const onCreateProject = /* GraphQL */ `
         }
         nextToken
       }
+      collaborators {
+        items {
+          id
+          projectID
+          name
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -196,6 +208,18 @@ export const onUpdateProject = /* GraphQL */ `
         }
         nextToken
       }
+      collaborators {
+        items {
+          id
+          projectID
+          name
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -227,6 +251,18 @@ export const onDeleteProject = /* GraphQL */ `
           projectID
           name
           title
+          description
+          url
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      collaborators {
+        items {
+          id
+          projectID
+          name
           description
           url
           createdAt
@@ -340,6 +376,51 @@ export const onDeleteResource = /* GraphQL */ `
       projectID
       name
       title
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCollaborator = /* GraphQL */ `
+  subscription OnCreateCollaborator(
+    $filter: ModelSubscriptionCollaboratorFilterInput
+  ) {
+    onCreateCollaborator(filter: $filter) {
+      id
+      projectID
+      name
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCollaborator = /* GraphQL */ `
+  subscription OnUpdateCollaborator(
+    $filter: ModelSubscriptionCollaboratorFilterInput
+  ) {
+    onUpdateCollaborator(filter: $filter) {
+      id
+      projectID
+      name
+      description
+      url
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCollaborator = /* GraphQL */ `
+  subscription OnDeleteCollaborator(
+    $filter: ModelSubscriptionCollaboratorFilterInput
+  ) {
+    onDeleteCollaborator(filter: $filter) {
+      id
+      projectID
+      name
       description
       url
       createdAt

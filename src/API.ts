@@ -96,6 +96,7 @@ export type Project = {
   thumbnail: string,
   tags?: ModelTagConnection | null,
   resources?: ModelResourceConnection | null,
+  collaborators?: ModelCollaboratorConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -127,6 +128,23 @@ export type Resource = {
   projectID: string,
   name: string,
   title: string,
+  description: string,
+  url: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelCollaboratorConnection = {
+  __typename: "ModelCollaboratorConnection",
+  items:  Array<Collaborator | null >,
+  nextToken?: string | null,
+};
+
+export type Collaborator = {
+  __typename: "Collaborator",
+  id: string,
+  projectID: string,
+  name: string,
   description: string,
   url: string,
   createdAt: string,
@@ -295,6 +313,36 @@ export type DeleteResourceInput = {
   id: string,
 };
 
+export type CreateCollaboratorInput = {
+  id?: string | null,
+  projectID: string,
+  name: string,
+  description: string,
+  url: string,
+};
+
+export type ModelCollaboratorConditionInput = {
+  projectID?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  url?: ModelStringInput | null,
+  and?: Array< ModelCollaboratorConditionInput | null > | null,
+  or?: Array< ModelCollaboratorConditionInput | null > | null,
+  not?: ModelCollaboratorConditionInput | null,
+};
+
+export type UpdateCollaboratorInput = {
+  id: string,
+  projectID?: string | null,
+  name?: string | null,
+  description?: string | null,
+  url?: string | null,
+};
+
+export type DeleteCollaboratorInput = {
+  id: string,
+};
+
 export type ModelExperienceFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -355,6 +403,17 @@ export type ModelResourceFilterInput = {
   and?: Array< ModelResourceFilterInput | null > | null,
   or?: Array< ModelResourceFilterInput | null > | null,
   not?: ModelResourceFilterInput | null,
+};
+
+export type ModelCollaboratorFilterInput = {
+  id?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  url?: ModelStringInput | null,
+  and?: Array< ModelCollaboratorFilterInput | null > | null,
+  or?: Array< ModelCollaboratorFilterInput | null > | null,
+  not?: ModelCollaboratorFilterInput | null,
 };
 
 export type ModelStringKeyConditionInput = {
@@ -452,6 +511,16 @@ export type ModelSubscriptionResourceFilterInput = {
   url?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionResourceFilterInput | null > | null,
   or?: Array< ModelSubscriptionResourceFilterInput | null > | null,
+};
+
+export type ModelSubscriptionCollaboratorFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  projectID?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  url?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionCollaboratorFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCollaboratorFilterInput | null > | null,
 };
 
 export type CreateExperienceMutationVariables = {
@@ -640,6 +709,20 @@ export type CreateProjectMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -687,6 +770,20 @@ export type UpdateProjectMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -727,6 +824,20 @@ export type DeleteProjectMutation = {
         projectID: string,
         name: string,
         title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
         description: string,
         url: string,
         createdAt: string,
@@ -892,6 +1003,60 @@ export type DeleteResourceMutation = {
   } | null,
 };
 
+export type CreateCollaboratorMutationVariables = {
+  input: CreateCollaboratorInput,
+  condition?: ModelCollaboratorConditionInput | null,
+};
+
+export type CreateCollaboratorMutation = {
+  createCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateCollaboratorMutationVariables = {
+  input: UpdateCollaboratorInput,
+  condition?: ModelCollaboratorConditionInput | null,
+};
+
+export type UpdateCollaboratorMutation = {
+  updateCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteCollaboratorMutationVariables = {
+  input: DeleteCollaboratorInput,
+  condition?: ModelCollaboratorConditionInput | null,
+};
+
+export type DeleteCollaboratorMutation = {
+  deleteCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetExperienceQueryVariables = {
   id: string,
 };
@@ -1013,6 +1178,20 @@ export type GetProjectQuery = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1042,6 +1221,10 @@ export type ListProjectsQuery = {
       } | null,
       resources?:  {
         __typename: "ModelResourceConnection",
+        nextToken?: string | null,
+      } | null,
+      collaborators?:  {
+        __typename: "ModelCollaboratorConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1165,6 +1348,46 @@ export type ListResourcesQuery = {
   } | null,
 };
 
+export type GetCollaboratorQueryVariables = {
+  id: string,
+};
+
+export type GetCollaboratorQuery = {
+  getCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListCollaboratorsQueryVariables = {
+  filter?: ModelCollaboratorFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCollaboratorsQuery = {
+  listCollaborators?:  {
+    __typename: "ModelCollaboratorConnection",
+    items:  Array< {
+      __typename: "Collaborator",
+      id: string,
+      projectID: string,
+      name: string,
+      description: string,
+      url: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ProjectsByExperienceIDAndTitleQueryVariables = {
   experienceID: string,
   title?: ModelStringKeyConditionInput | null,
@@ -1192,6 +1415,10 @@ export type ProjectsByExperienceIDAndTitleQuery = {
       } | null,
       resources?:  {
         __typename: "ModelResourceConnection",
+        nextToken?: string | null,
+      } | null,
+      collaborators?:  {
+        __typename: "ModelCollaboratorConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1267,6 +1494,32 @@ export type ResourcesByProjectIDAndTitleQuery = {
       projectID: string,
       name: string,
       title: string,
+      description: string,
+      url: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type CollaboratorsByProjectIDAndNameQueryVariables = {
+  projectID: string,
+  name?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelCollaboratorFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type CollaboratorsByProjectIDAndNameQuery = {
+  collaboratorsByProjectIDAndName?:  {
+    __typename: "ModelCollaboratorConnection",
+    items:  Array< {
+      __typename: "Collaborator",
+      id: string,
+      projectID: string,
+      name: string,
       description: string,
       url: string,
       createdAt: string,
@@ -1458,6 +1711,20 @@ export type OnCreateProjectSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1504,6 +1771,20 @@ export type OnUpdateProjectSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1543,6 +1824,20 @@ export type OnDeleteProjectSubscription = {
         projectID: string,
         name: string,
         title: string,
+        description: string,
+        url: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    collaborators?:  {
+      __typename: "ModelCollaboratorConnection",
+      items:  Array< {
+        __typename: "Collaborator",
+        id: string,
+        projectID: string,
+        name: string,
         description: string,
         url: string,
         createdAt: string,
@@ -1692,6 +1987,57 @@ export type OnDeleteResourceSubscription = {
     projectID: string,
     name: string,
     title: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateCollaboratorSubscriptionVariables = {
+  filter?: ModelSubscriptionCollaboratorFilterInput | null,
+};
+
+export type OnCreateCollaboratorSubscription = {
+  onCreateCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCollaboratorSubscriptionVariables = {
+  filter?: ModelSubscriptionCollaboratorFilterInput | null,
+};
+
+export type OnUpdateCollaboratorSubscription = {
+  onUpdateCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
+    description: string,
+    url: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCollaboratorSubscriptionVariables = {
+  filter?: ModelSubscriptionCollaboratorFilterInput | null,
+};
+
+export type OnDeleteCollaboratorSubscription = {
+  onDeleteCollaborator?:  {
+    __typename: "Collaborator",
+    id: string,
+    projectID: string,
+    name: string,
     description: string,
     url: string,
     createdAt: string,
