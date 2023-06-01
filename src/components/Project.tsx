@@ -92,7 +92,7 @@ export default function Project({ project }: Props) {
       <Card variant="outlined">
         <CardMedia
           sx={{ height: 150 }}
-          image={`/assets/projects/${project.thumbnail}`}
+          image={project.thumbnail}
           title="green iguana"
         />
         <CardContent>
@@ -170,8 +170,8 @@ export default function Project({ project }: Props) {
           <ImageList cols={2} gap={16}>
             <ImageListItem>
               <img
-                src={`/assets/projects/${project.thumbnail}`}
-                srcSet={`/assets/projects/${project.thumbnail}`}
+                src={project.thumbnail}
+                srcSet={project.thumbnail}
                 alt="Thumbnail"
                 loading="lazy"
               />
@@ -180,8 +180,8 @@ export default function Project({ project }: Props) {
               return (
                 <ImageListItem key={resource.id}>
                   <img
-                    src={`/assets/projects/${resource.name}`}
-                    srcSet={`/assets/projects/${resource.name}`}
+                    src={resource.name}
+                    srcSet={resource.name}
                     alt={resource.title}
                     loading="lazy"
                   />

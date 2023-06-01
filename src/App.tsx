@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import headshot from "assets/headshot.jpeg";
 
 import { orderBy } from "lodash";
 
@@ -68,7 +67,7 @@ function App() {
                 <Grid item xs={12}>
                   <Avatar
                     alt="Jonathan Whitney"
-                    src={headshot}
+                    src="https://d39zwmduk6k4c9.cloudfront.net/headshot.jpeg"
                     sx={{
                       marginTop: theme.spacing(8),
                       marginBottom: theme.spacing(1),
