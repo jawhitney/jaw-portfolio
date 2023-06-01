@@ -7,5 +7,5 @@ interface Props {
 }
 
 export default function Skill({ skill }: Props) {
-  return <Chip label={skill.title} />;
+  return <Chip label={skill.title} variant="outlined" />;
 }

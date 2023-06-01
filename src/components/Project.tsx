@@ -21,6 +21,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Grid,
   IconButton,
   ImageList,
   ImageListItem,
@@ -28,6 +29,7 @@ import {
   Typography,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import InfoIcon from "@mui/icons-material/Info";
 import Skill from "components/Skill";
 
 interface Props {
@@ -89,20 +91,30 @@ export default function Project({ project }: Props) {
 
   return (
     <>
-      <Card variant="outlined" sx={{ maxWidth: 345 }}>
+      <Card variant="outlined">
         <CardMedia
           sx={{ height: 150 }}
           image={`/assets/projects/${project.thumbnail}`}
           title="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ textAlign: "center" }}
+          >
             {project.title}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={handleOpen}>
-            Learn More
+          <Button
+            variant="outlined"
+            startIcon={<InfoIcon />}
+            onClick={handleOpen}
+            sx={{ margin: "0 auto" }}
+          >
+            Details
           </Button>
         </CardActions>
       </Card>
@@ -112,34 +124,52 @@ export default function Project({ project }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>
-          {project.title}
-          {project.url && (
-            <Link href={project.url}>
-              <IconButton aria-label="Project URL">
-                <OpenInNewIcon />
-              </IconButton>
-            </Link>
-          )}
-        </DialogTitle>
         <DialogContent>
-          <Typography variant="body2" color="text.secondary">
-            {project.description}
-          </Typography>
-          {tags.map((tag) => {
-            return <Skill key={tag.id} skill={tag} />;
-          })}
-          {collaborators.map((collaborator) => {
-            return (
-              <div key={collaborator.id}>
-                <Typography variant="body2" color="text.secondary">
-                  {collaborator.description}{" "}
-                  <Link href={collaborator.url}>{collaborator.name}</Link>
-                </Typography>
-              </div>
-            );
-          })}
-          <ImageList cols={1}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h4">{project.title}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1">{project.description}</Typography>
+            </Grid>
+            {project.url && (
+              <Grid item xs={12}>
+                <Link href={project.url}>
+                  <Button
+                    variant="outlined"
+                    aria-label="Project URL"
+                    startIcon={<OpenInNewIcon />}
+                  >
+                    View Project
+                  </Button>
+                </Link>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <Grid container spacing={1}>
+                {tags.map((tag) => {
+                  return (
+                    <Grid item>
+                      <Skill key={tag.id} skill={tag} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              {collaborators.map((collaborator) => {
+                return (
+                  <div key={collaborator.id}>
+                    <Typography variant="body2" color="text.secondary">
+                      {collaborator.description}{" "}
+                      <Link href={collaborator.url}>{collaborator.name}</Link>
+                    </Typography>
+                  </div>
+                );
+              })}
+            </Grid>
+          </Grid>
+          <ImageList cols={2} gap={16}>
             <ImageListItem>
               <img
                 src={`/assets/projects/${project.thumbnail}`}

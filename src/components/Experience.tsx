@@ -11,7 +11,8 @@ import {
   projectsByExperienceIDAndTitle,
 } from "graphql/queries";
 
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import Skill from "components/Skill";
 import Project from "components/Project";
@@ -21,8 +22,10 @@ interface Props {
 }
 
 export default function Experience({ experience }: Props) {
+  const [dateMessage, setDateMessage] = useState<string>("");
   const [skills, setSkills] = useState<SkillType[]>([]);
   const [projects, setProjects] = useState<ProjectType[]>([]);
+  const theme = useTheme();
 
   useEffect(() => {
     async function fetchSkills() {
@@ -51,40 +54,68 @@ export default function Experience({ experience }: Props) {
     fetchProjects();
   }, [experience.id]);
 
+  useEffect(() => {
+    const begin = new Date(experience.dateBegin).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+    });
+    const end = new Date(experience.dateEnd).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+    });
+    setDateMessage(`${begin} - ${end}`);
+  }, [experience.dateBegin, experience.dateEnd]);
+
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography>{experience.name}</Typography>
+            <Typography variant="subtitle2">{experience.name}</Typography>
           </Grid>
           <Grid item>
-            <Typography>
-              {experience.dateBegin} - {experience.dateEnd}
-            </Typography>
+            <Typography variant="subtitle2">{dateMessage}</Typography>
           </Grid>
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Typography>
-          {experience.company} | {experience.location}
+        <Typography variant="body1">
+          <strong>
+            {experience.company} | {experience.location}
+          </strong>
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography>{experience.description}</Typography>
+        <Typography variant="caption">{experience.description}</Typography>
       </Grid>
       {skills && skills.length > 0 && (
         <Grid item xs={12}>
-          {skills.map((skill) => {
-            return <Skill key={skill.id} skill={skill} />;
-          })}
+          <Box
+            sx={{ marginTop: theme.spacing(1), marginBottom: theme.spacing(2) }}
+          >
+            <Grid container spacing={1}>
+              {skills.map((skill) => {
+                return (
+                  <Grid item>
+                    <Skill key={skill.id} skill={skill} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
         </Grid>
       )}
       {projects && projects.length > 0 && (
         <Grid item xs={12}>
-          {projects.map((project) => {
-            return <Project key={project.id} project={project} />;
-          })}
+          <Grid container spacing={2}>
+            {projects.map((project) => {
+              return (
+                <Grid item xs={12} md={6}>
+                  <Project key={project.id} project={project} />
+                </Grid>
+              );
+            })}
+          </Grid>
         </Grid>
       )}
     </Grid>
