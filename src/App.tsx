@@ -26,6 +26,8 @@ import { API } from "aws-amplify";
 import { listExperiences } from "graphql/queries";
 import { Experience as ExperienceType } from "API";
 
+import { darkTheme, lightTheme } from "theme";
+
 import Experience from "components/Experience";
 
 function App() {
@@ -42,11 +44,7 @@ function App() {
     setLoading(false);
   }
 
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? "dark" : "light",
-    },
-  });
+  const theme = darkMode ? darkTheme : lightTheme;
 
   const handleChangeTheme = () => {
     setDarkMode(!darkMode);
@@ -79,12 +77,12 @@ function App() {
                 <Grid item xs={12}>
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
-                      <Typography variant="h3">
+                      <Typography variant="h3" color="primary">
                         <strong>Jonathan Whitney</strong>
                       </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography variant="h5">
+                      <Typography variant="h5" color="text.secondary">
                         Full-Stack Developer/Engineer
                       </Typography>
                     </Grid>
@@ -112,7 +110,8 @@ function App() {
                     <Grid item xs={12}>
                       <Link href="https://github.com/jawhitney/jaw-portfolio">
                         <Button
-                          variant="outlined"
+                          variant="contained"
+                          color="primary"
                           startIcon={<OpenInNewIcon />}
                         >
                           View Repo
@@ -174,11 +173,7 @@ function App() {
               right: theme.spacing(1),
             }}
           >
-            <Fab
-              color="primary"
-              aria-label="Theme Mode"
-              onClick={handleChangeTheme}
-            >
+            <Fab aria-label="Theme Mode" onClick={handleChangeTheme}>
               {darkMode ? <Brightness7Icon /> : <DarkModeIcon />}
             </Fab>
           </Box>

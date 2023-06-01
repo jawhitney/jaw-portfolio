@@ -27,7 +27,7 @@ import {
   Typography,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import InfoIcon from "@mui/icons-material/Info";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Skill from "components/Skill";
 
 interface Props {
@@ -99,6 +99,7 @@ export default function Project({ project }: Props) {
           <Typography
             gutterBottom
             variant="h5"
+            color="primary"
             component="div"
             sx={{ textAlign: "center" }}
           >
@@ -107,8 +108,9 @@ export default function Project({ project }: Props) {
         </CardContent>
         <CardActions>
           <Button
-            variant="outlined"
-            startIcon={<InfoIcon />}
+            variant="contained"
+            color="primary"
+            startIcon={<InfoOutlinedIcon />}
             onClick={handleOpen}
             sx={{ margin: "0 auto" }}
           >
@@ -125,7 +127,9 @@ export default function Project({ project }: Props) {
         <DialogContent>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h4">{project.title}</Typography>
+              <Typography variant="h4" color="primary">
+                {project.title}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="body1">{project.description}</Typography>
@@ -134,7 +138,8 @@ export default function Project({ project }: Props) {
               <Grid item xs={12}>
                 <Link href={project.url}>
                   <Button
-                    variant="outlined"
+                    variant="contained"
+                    color="primary"
                     aria-label="Project URL"
                     startIcon={<OpenInNewIcon />}
                   >
@@ -160,7 +165,9 @@ export default function Project({ project }: Props) {
                   <div key={collaborator.id}>
                     <Typography variant="body2" color="text.secondary">
                       {collaborator.description}{" "}
-                      <Link href={collaborator.url}>{collaborator.name}</Link>
+                      <Link href={collaborator.url} color="primary">
+                        {collaborator.name}
+                      </Link>
                     </Typography>
                   </div>
                 );

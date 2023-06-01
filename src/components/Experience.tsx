@@ -77,7 +77,9 @@ export default function Experience({ experience }: Props) {
       <Grid item xs={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="subtitle2">{experience.name}</Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              {experience.name}
+            </Typography>
           </Grid>
           <Grid item>
             <Typography variant="subtitle2">{dateMessage}</Typography>
@@ -85,7 +87,7 @@ export default function Experience({ experience }: Props) {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="body1">
+        <Typography variant="body1" color="primary">
           <strong>
             {experience.company} | {experience.location}
           </strong>
