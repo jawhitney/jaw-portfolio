@@ -11,7 +11,7 @@ import {
   projectsByExperienceIDAndTitle,
 } from "graphql/queries";
 
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import Skill from "components/Skill";
