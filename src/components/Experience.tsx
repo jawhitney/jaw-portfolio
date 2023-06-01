@@ -11,7 +11,7 @@ import {
   projectsByExperienceIDAndTitle,
 } from "graphql/queries";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import Skill from "components/Skill";
@@ -23,12 +23,15 @@ interface Props {
 
 export default function Experience({ experience }: Props) {
   const [dateMessage, setDateMessage] = useState<string>("");
+  const [skillsLoading, setSkillsLoading] = useState<boolean>(true);
   const [skills, setSkills] = useState<SkillType[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<ProjectType[]>([]);
   const theme = useTheme();
 
   useEffect(() => {
     async function fetchSkills() {
+      setSkillsLoading(true);
       const response: any = await API.graphql({
         query: skillsByExperienceIDAndTitle,
         variables: {
@@ -37,9 +40,11 @@ export default function Experience({ experience }: Props) {
       });
       const skills = response.data.skillsByExperienceIDAndTitle.items;
       setSkills(skills);
+      setSkillsLoading(false);
     }
 
     async function fetchProjects() {
+      setProjectsLoading(true);
       const response: any = await API.graphql({
         query: projectsByExperienceIDAndTitle,
         variables: {
@@ -48,6 +53,7 @@ export default function Experience({ experience }: Props) {
       });
       const projects = response.data.projectsByExperienceIDAndTitle.items;
       setProjects(projects);
+      setProjectsLoading(false);
     }
 
     fetchSkills();
@@ -88,35 +94,50 @@ export default function Experience({ experience }: Props) {
       <Grid item xs={12}>
         <Typography variant="caption">{experience.description}</Typography>
       </Grid>
-      {skills && skills.length > 0 && (
-        <Grid item xs={12}>
-          <Box
-            sx={{ marginTop: theme.spacing(1), marginBottom: theme.spacing(2) }}
-          >
-            <Grid container spacing={1}>
-              {skills.map((skill) => {
-                return (
-                  <Grid item>
-                    <Skill key={skill.id} skill={skill} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
-        </Grid>
-      )}
-      {projects && projects.length > 0 && (
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            {projects.map((project) => {
-              return (
-                <Grid item xs={12} md={6}>
-                  <Project key={project.id} project={project} />
+      {skillsLoading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          {skills && skills.length > 0 && (
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  marginTop: theme.spacing(1),
+                  marginBottom: theme.spacing(2),
+                }}
+              >
+                <Grid container spacing={1}>
+                  {skills.map((skill) => {
+                    return (
+                      <Grid item>
+                        <Skill key={skill.id} skill={skill} />
+                      </Grid>
+                    );
+                  })}
                 </Grid>
-              );
-            })}
-          </Grid>
-        </Grid>
+              </Box>
+            </Grid>
+          )}
+        </>
+      )}
+      {projectsLoading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          {projects && projects.length > 0 && (
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                {projects.map((project) => {
+                  return (
+                    <Grid item xs={12} md={6}>
+                      <Project key={project.id} project={project} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          )}
+        </>
       )}
     </Grid>
   );

@@ -9,6 +9,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {
   Avatar,
   Box,
+  Button,
+  CircularProgress,
   Fab,
   Grid,
   IconButton,
@@ -29,13 +31,16 @@ import Experience from "components/Experience";
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [experiences, setExperiences] = useState<ExperienceType[]>([]);
 
   async function fetchExperiences() {
+    setLoading(true);
     const response: any = await API.graphql({ query: listExperiences });
     const experiences = response.data.listExperiences.items;
     const sortedExperiences = orderBy(experiences, ["dateBegin"], ["desc"]);
     setExperiences(sortedExperiences);
+    setLoading(false);
   }
 
   const theme = createTheme({
@@ -101,13 +106,19 @@ function App() {
                     </Grid>
                     <Grid item xs={12}>
                       <Typography>
-                        This site is a React application hosted on AWS
-                        <Link href="https://github.com/jawhitney/jaw-portfolio">
-                          <IconButton aria-label="Link to GitHub Repo">
-                            <OpenInNewIcon />
-                          </IconButton>
-                        </Link>
+                        This site is a React application built and hosted on AWS
+                        Amplify
                       </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Link href="https://github.com/jawhitney/jaw-portfolio">
+                        <Button
+                          variant="outlined"
+                          startIcon={<OpenInNewIcon />}
+                        >
+                          View Repo
+                        </Button>
+                      </Link>
                     </Grid>
                     <Grid item xs={12}>
                       <Link
@@ -132,14 +143,16 @@ function App() {
               </Grid>
             </Box>
           </Grid>
-          {experiences.length > 0 && (
-            <Grid item md={7}>
-              <Box
-                sx={{
-                  paddingTop: theme.spacing(8),
-                  paddingBottom: theme.spacing(8),
-                }}
-              >
+          <Grid item md={7}>
+            <Box
+              sx={{
+                paddingTop: theme.spacing(8),
+                paddingBottom: theme.spacing(8),
+              }}
+            >
+              {loading ? (
+                <CircularProgress />
+              ) : (
                 <Grid container spacing={6}>
                   {experiences.map((experience) => {
                     return (
@@ -152,9 +165,9 @@ function App() {
                     );
                   })}
                 </Grid>
-              </Box>
-            </Grid>
-          )}
+              )}
+            </Box>
+          </Grid>
           <Box
             sx={{
               position: "fixed",
