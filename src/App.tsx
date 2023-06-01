@@ -155,7 +155,7 @@ function App() {
                 <Grid container spacing={6}>
                   {experiences.map((experience) => {
                     return (
-                      <Grid item xs={12}>
+                      <Grid item xs={12} key={experience.id}>
                         <Experience
                           key={experience.id}
                           experience={experience}

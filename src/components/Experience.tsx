@@ -109,7 +109,7 @@ export default function Experience({ experience }: Props) {
                 <Grid container spacing={1}>
                   {skills.map((skill) => {
                     return (
-                      <Grid item>
+                      <Grid item key={skill.id}>
                         <Skill key={skill.id} skill={skill} />
                       </Grid>
                     );
@@ -129,7 +129,7 @@ export default function Experience({ experience }: Props) {
               <Grid container spacing={2}>
                 {projects.map((project) => {
                   return (
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={6} key={project.id}>
                       <Project key={project.id} project={project} />
                     </Grid>
                   );

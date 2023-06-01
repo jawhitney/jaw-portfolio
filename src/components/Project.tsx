@@ -147,7 +147,7 @@ export default function Project({ project }: Props) {
               <Grid container spacing={1}>
                 {tags.map((tag) => {
                   return (
-                    <Grid item>
+                    <Grid item key={tag.id}>
                       <Skill key={tag.id} skill={tag} />
                     </Grid>
                   );
