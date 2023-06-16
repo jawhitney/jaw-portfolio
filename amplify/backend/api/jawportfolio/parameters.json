@@ -2,5 +2,6 @@
   "AppSyncApiName": "jawportfolio",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2023-06-16T14:01:14.538Z"
+  "AuthModeLastUpdated": "2023-06-16T14:01:14.538Z",
+  "APIKeyExpirationEpoch": "-1"
 }
