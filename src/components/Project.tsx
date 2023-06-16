@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { API } from "aws-amplify";
 import {
@@ -18,6 +18,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  CircularProgress,
   Dialog,
   DialogContent,
   Grid,
@@ -36,8 +37,12 @@ interface Props {
 
 export default function Project({ project }: Props) {
   const [open, setOpen] = useState<boolean>(false);
+  const [resourcesLoading, setResourcesLoading] = useState<boolean>(true);
   const [resources, setResources] = useState<ResourceType[]>([]);
+  const [tagsLoading, setTagsLoading] = useState<boolean>(true);
   const [tags, setTags] = useState<TagType[]>([]);
+  const [collaboratorsLoading, setCollaboratorsLoading] =
+    useState<boolean>(true);
   const [collaborators, setCollaborators] = useState<CollaboratorType[]>([]);
 
   const handleOpen = () => {
@@ -48,8 +53,9 @@ export default function Project({ project }: Props) {
     setOpen(false);
   };
 
-  useEffect(() => {
-    async function fetchResources() {
+  const fetchResources = useCallback(async () => {
+    setResourcesLoading(true);
+    try {
       const response: any = await API.graphql({
         query: resourcesByProjectIDAndTitle,
         variables: {
@@ -58,9 +64,16 @@ export default function Project({ project }: Props) {
       });
       const resources = response.data.resourcesByProjectIDAndTitle.items;
       setResources(resources);
+      setResourcesLoading(false);
+    } catch (error) {
+      console.log(error);
+      setResourcesLoading(false);
     }
+  }, [project.id]);
 
-    async function fetchTags() {
+  const fetchTags = useCallback(async () => {
+    setTagsLoading(true);
+    try {
       const response: any = await API.graphql({
         query: tagsByProjectIDAndTitle,
         variables: {
@@ -69,9 +82,16 @@ export default function Project({ project }: Props) {
       });
       const tags = response.data.tagsByProjectIDAndTitle.items;
       setTags(tags);
+      setTagsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setTagsLoading(false);
     }
+  }, [project.id]);
 
-    async function fetchCollaborators() {
+  const fetchCollaborators = useCallback(async () => {
+    setCollaboratorsLoading(true);
+    try {
       const response: any = await API.graphql({
         query: collaboratorsByProjectIDAndName,
         variables: {
@@ -80,12 +100,20 @@ export default function Project({ project }: Props) {
       });
       const collaborators = response.data.collaboratorsByProjectIDAndName.items;
       setCollaborators(collaborators);
+      setCollaboratorsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setCollaboratorsLoading(false);
     }
-
-    fetchResources();
-    fetchTags();
-    fetchCollaborators();
   }, [project.id]);
+
+  useEffect(() => {
+    if (project.id) {
+      fetchResources();
+      fetchTags();
+      fetchCollaborators();
+    }
+  }, [project.id, fetchCollaborators, fetchResources, fetchTags]);
 
   return (
     <>
@@ -148,54 +176,66 @@ export default function Project({ project }: Props) {
                 </Link>
               </Grid>
             )}
-            <Grid item xs={12}>
-              <Grid container spacing={1}>
-                {tags.map((tag) => {
+            {tagsLoading ? (
+              <CircularProgress />
+            ) : (
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  {tags.map((tag) => {
+                    return (
+                      <Grid item key={tag.id}>
+                        <Skill key={tag.id} skill={tag} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            )}
+            {collaboratorsLoading ? (
+              <CircularProgress />
+            ) : (
+              <Grid item xs={12}>
+                {collaborators.map((collaborator) => {
                   return (
-                    <Grid item key={tag.id}>
-                      <Skill key={tag.id} skill={tag} />
-                    </Grid>
+                    <div key={collaborator.id}>
+                      <Typography variant="body2" color="text.secondary">
+                        {collaborator.description}{" "}
+                        <Link href={collaborator.url} color="primary">
+                          {collaborator.name}
+                        </Link>
+                      </Typography>
+                    </div>
                   );
                 })}
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              {collaborators.map((collaborator) => {
+            )}
+          </Grid>
+          {resourcesLoading ? (
+            <CircularProgress />
+          ) : (
+            <ImageList cols={2} gap={16}>
+              <ImageListItem>
+                <img
+                  src={project.thumbnail}
+                  srcSet={project.thumbnail}
+                  alt="Thumbnail"
+                  loading="lazy"
+                />
+              </ImageListItem>
+              {resources.map((resource) => {
                 return (
-                  <div key={collaborator.id}>
-                    <Typography variant="body2" color="text.secondary">
-                      {collaborator.description}{" "}
-                      <Link href={collaborator.url} color="primary">
-                        {collaborator.name}
-                      </Link>
-                    </Typography>
-                  </div>
+                  <ImageListItem key={resource.id}>
+                    <img
+                      src={resource.name}
+                      srcSet={resource.name}
+                      alt={resource.title}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
                 );
               })}
-            </Grid>
-          </Grid>
-          <ImageList cols={2} gap={16}>
-            <ImageListItem>
-              <img
-                src={project.thumbnail}
-                srcSet={project.thumbnail}
-                alt="Thumbnail"
-                loading="lazy"
-              />
-            </ImageListItem>
-            {resources.map((resource) => {
-              return (
-                <ImageListItem key={resource.id}>
-                  <img
-                    src={resource.name}
-                    srcSet={resource.name}
-                    alt={resource.title}
-                    loading="lazy"
-                  />
-                </ImageListItem>
-              );
-            })}
-          </ImageList>
+            </ImageList>
+          )}
         </DialogContent>
       </Dialog>
     </>

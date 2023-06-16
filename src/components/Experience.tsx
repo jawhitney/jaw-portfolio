@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { API } from "aws-amplify";
 import {
@@ -29,9 +29,9 @@ export default function Experience({ experience }: Props) {
   const [projects, setProjects] = useState<ProjectType[]>([]);
   const theme = useTheme();
 
-  useEffect(() => {
-    async function fetchSkills() {
-      setSkillsLoading(true);
+  const fetchSkills = useCallback(async () => {
+    setSkillsLoading(true);
+    try {
       const response: any = await API.graphql({
         query: skillsByExperienceIDAndTitle,
         variables: {
@@ -41,9 +41,14 @@ export default function Experience({ experience }: Props) {
       const skills = response.data.skillsByExperienceIDAndTitle.items;
       setSkills(skills);
       setSkillsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setSkillsLoading(false);
     }
+  }, [experience.id]);
 
-    async function fetchProjects() {
+  const fetchProjects = useCallback(async () => {
+    try {
       setProjectsLoading(true);
       const response: any = await API.graphql({
         query: projectsByExperienceIDAndTitle,
@@ -54,11 +59,18 @@ export default function Experience({ experience }: Props) {
       const projects = response.data.projectsByExperienceIDAndTitle.items;
       setProjects(projects);
       setProjectsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setProjectsLoading(false);
     }
-
-    fetchSkills();
-    fetchProjects();
   }, [experience.id]);
+
+  useEffect(() => {
+    if (experience.id) {
+      fetchSkills();
+      fetchProjects();
+    }
+  }, [experience.id, fetchSkills, fetchProjects]);
 
   useEffect(() => {
     const begin = new Date(experience.dateBegin).toLocaleDateString("en-us", {

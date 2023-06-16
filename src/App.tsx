@@ -3,7 +3,7 @@ import "./App.css";
 
 import { orderBy } from "lodash";
 
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
   Avatar,
@@ -37,11 +37,16 @@ function App() {
 
   async function fetchExperiences() {
     setLoading(true);
-    const response: any = await API.graphql({ query: listExperiences });
-    const experiences = response.data.listExperiences.items;
-    const sortedExperiences = orderBy(experiences, ["dateBegin"], ["desc"]);
-    setExperiences(sortedExperiences);
-    setLoading(false);
+    try {
+      const response: any = await API.graphql({ query: listExperiences });
+      const experiences = response.data.listExperiences.items;
+      const sortedExperiences = orderBy(experiences, ["dateBegin"], ["desc"]);
+      setExperiences(sortedExperiences);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   }
 
   const theme = darkMode ? darkTheme : lightTheme;
